@@ -1,0 +1,18 @@
+[package]
+name = "genetic-algorithms"
+version = "0.1.0"
+edition = "2021"
+authors = ["Krzysztof Langner <klangner@gmail.com>"]
+description = "Genetic Algorithms Examples"
+keywords = ["genetic algorithms"]
+license = "MIT OR Apache-2.0"
+
+
+[dependencies]
+macroquad = "0.3"
+
+
+[dev-dependencies]
+
+[[example]]
+name = "chapter1"
