@@ -52,6 +52,22 @@ impl World {
     }
 }
 
+fn create_path(start_pos: Vec2, num_steps: usize) -> Vec<Vec2> {
+    let mut path = vec![start_pos; num_steps];
+    for i in 1..num_steps {
+        let prev = path[i-1];
+        let step_len = (10 * i / 2) as f32;
+        path[i] = match i % 4 {
+            0 => Vec2::new(prev.x, prev.y + step_len),
+            1 => Vec2::new(prev.x + step_len, prev.y), 
+            2 => Vec2::new(prev.x, prev.y - step_len), 
+            _ => Vec2::new(prev.x - step_len, prev.y), 
+        };
+    }
+    path
+}
+
+
 fn draw_world(world: &World) {
     // Plot
     clear_background(LIGHTGRAY);
@@ -62,7 +78,7 @@ fn draw_world(world: &World) {
         draw_line(world.path[i].x, world.path[i].y, world.path[i+1].x, world.path[i+1].y, 2., BLACK);
     }
     // Starting point
-    draw_circle(world.turtle.pos.x, world.turtle.pos.y, 5., GREEN);
+    draw_circle(world.turtle.pos.x, world.turtle.pos.y, 2., GREEN);
 }
 
 
@@ -80,7 +96,7 @@ fn window_conf() -> Conf {
 async fn main() {
     let bag = Bag::new((WORD_WIDTH-BAG_WIDTH) / 2., (WORD_HEIGHT-BAG_HEIGHT) / 2., BAG_WIDTH, BAG_HEIGHT);
     let turtle = Turtle::new(400., 300.);
-    let path = vec![turtle.pos, Vec2::new(400., 580.), Vec2::new(780., 580.)];
+    let path = create_path(turtle.pos, 100);
     let world = World::new(WORD_WIDTH, WORD_HEIGHT, bag, turtle, path);
 
     loop {
